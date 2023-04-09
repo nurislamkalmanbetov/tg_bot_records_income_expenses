@@ -1,2 +1,3 @@
-venv/
 config
+credentials.txt
+venv/
