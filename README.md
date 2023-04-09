@@ -1,10 +1,13 @@
-### Этот бот может для тебя посчитать твои расходы за 
-#### 1 - день \ 1 - неделю \ 1 - месяц \ 1 - год
-#### Для этого тебе нужно будет записывать каждый день или когда хочешь свои расходы. 
+## This bot can calculate your expenses for
 
-#### Бот сделан на Aiogram + SqlLite база данных
+### Calculate bot your salarys 
 
-#### Чтобы использовать его - тебе нужно иметь телеграм
->> 1. Зайди в поиск
->> 2. Напиши - https://t.me/calculation_dohod_bot 
->> 3. Нажми на /start 
+#### 1 - day \ 1 - week \ 1 - month \ 1 - year
+#### To do this, you will need to write down your expenses every day or whenever you want.
+
+## Bot is made on Aiogram + SqlLite database
+
+#### To use it - you need to have telegram
+>> 1. Go to search
+>> 2. Write - https://t.me/calculation_dohod_bot
+>> 3. Click on /start
