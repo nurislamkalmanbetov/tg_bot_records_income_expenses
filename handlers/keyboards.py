@@ -1,8 +1,6 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 
 
-
-
 def get_keyboard(name: str):
     if name == 'start':
         keyboard = InlineKeyboardMarkup()
@@ -24,6 +22,13 @@ def get_keyboard(name: str):
 
 
     return keyboard
+
+
+
+
+
+
+
 
 
 
