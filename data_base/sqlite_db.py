@@ -25,25 +25,35 @@ def create_income_table(conn):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             description TEXT,
             amount REAL,
-            date TEXT
+            date TEXT DEFAULT (date('now','localtime'))
         )
     """)
     conn.commit()
 
+    
 
 def add_income(conn, description, amount, date):
-    """
-    Функция добавления дохода в таблицу "income" базы данных.
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO income (description, amount, date) VALUES (?, ?, ?)", (description, amount, date))
+    conn.commit()
 
-    :param conn: объект подключения к базе данных
-    :param description: описание дохода
-    :param amount: сумма дохода
-    :param date: дата дохода в формате день/месяц/год
+
+
+def add_expense(conn, description, amount, date):
+    """
+    Функция добавления расхода в таблицу "expenses" базы данных.
+
+    :param conn: объект соединения с базой данных
+    :param amount: сумма расхода
+    :param description: описание расхода
+    :param date: дата расхода
     :return: None
     """
     try:
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO income (description, amount, date) VALUES (?, ?, ?)", (description, amount, date))
+        cursor.execute("INSERT INTO expenses (amount, description, date) VALUES (?, ?, ?)",
+                       (amount, description, date))
         conn.commit()
     except Error as e:
         print(e)
+

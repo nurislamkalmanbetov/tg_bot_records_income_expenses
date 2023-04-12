@@ -23,7 +23,7 @@ async def incomes_main(callback_query: types.CallbackQuery):
 
 async def expenses_1_day(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(chat_id=callback_query.from_user.id, text='Вы нажали на кнопку Расход за день\nВведите сумму')
+    await bot.send_message(chat_id=callback_query.from_user.id, text='Вы нажали на кнопку Расход за день!!!!!!!')
 
 
 async def expenses_1_week(callback_query: types.CallbackQuery):
@@ -52,34 +52,7 @@ async def all_expenses(callback_query: types.CallbackQuery):
 
 
 
-# Доходы по очередности__________________________________________________________________________________
-
-
-# async def ask_income_description(message: types.Message):
-#     await bot.send_message(chat_id=message.chat.id, text='Введите описание дохода:')
+# Доход_______________________________________________________________________________________
 
 
     
-async def ask_income_description(message: types.Message):
-    print('nahuuuuuuuuuuuuuuuuuuuuuuui')
-    await bot.send_message(chat_id=message.chat.id, text='Введите описание дохода:')
-    dp.register_message_handler(ask_income_amount, chat_id=message.chat.id)
-
-async def ask_income_amount(message: types.Message):
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    description = message.text
-    await bot.send_message(chat_id=message.chat.id, text='Введите сумму дохода:')
-    dp.register_message_handler(ask_income_date, chat_id=message.chat.id, args=(description,))
-
-async def ask_income_date(message: types.Message, description):
-    amount = message.text
-    await bot.send_message(chat_id=message.chat.id, text='Введите дату дохода в формате день/месяц/год:')
-    dp.register_message_handler(save_income, chat_id=message.chat.id, args=(description, amount))
-
-async def save_income(message: types.Message, description, amount):
-    date = message.text
-    conn = sqlite3.connect('data_base/rashod.db')
-    add_income(conn, description, amount, date)
-    conn.close()
-    await bot.send_message(chat_id=message.chat.id, text='Доход успешно добавлен в базу данных!')
-
