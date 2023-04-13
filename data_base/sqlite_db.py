@@ -9,9 +9,9 @@ def create_expenses_table():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS expenses (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            amount REAL,
             description TEXT,
-            date DATE
+            amount INTEGER,
+            date TEXT DEFAULT (date('now','localtime'))
         )
     ''')
     conn.commit()
@@ -24,7 +24,7 @@ def create_income_table(conn):
         CREATE TABLE IF NOT EXISTS income (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             description TEXT,
-            amount REAL,
+            amount INTEGER,
             date TEXT DEFAULT (date('now','localtime'))
         )
     """)
@@ -40,20 +40,7 @@ def add_income(conn, description, amount, date):
 
 
 def add_expense(conn, description, amount, date):
-    """
-    Функция добавления расхода в таблицу "expenses" базы данных.
-
-    :param conn: объект соединения с базой данных
-    :param amount: сумма расхода
-    :param description: описание расхода
-    :param date: дата расхода
-    :return: None
-    """
-    try:
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO expenses (amount, description, date) VALUES (?, ?, ?)",
-                       (amount, description, date))
-        conn.commit()
-    except Error as e:
-        print(e)
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO expenses (description, amount, date) VALUES (?, ?, ?)", (description, amount, date))
+    conn.commit()
 

@@ -117,89 +117,11 @@ async def all_expenses_callback(callback_query: types.CallbackQuery):
 # Доходная часть  ______________________________________________________________________________________
 
 
+@dp.callback_query_handler(lambda callback: callback.data == 'income')
+async def income_callback(callback_query: types.CallbackQuery, state: FSMContext):
+    await income(callback_query, state)
 
-@dp.callback_query_handler(lambda callback_query: callback_query.data == 'income')
-async def income(callback_query: types.CallbackQuery, state: FSMContext):
-    await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(chat_id=callback_query.from_user.id, text='Вы нажали на кнопку Доходы')
-
-    class States(StatesGroup):
-        ask_income_description = State()
-        ask_income_amount = State()
-
-    async with state.proxy() as data:
-        data['type'] = 'income'
-
-    await state.set_state(States.ask_income_description)
-    await bot.send_message(chat_id=callback_query.from_user.id, text='Введите описание дохода:')
-
-    @dp.message_handler(state=States.ask_income_description)
-    async def ask_income_amount(message: types.Message, state: FSMContext):
-        async with state.proxy() as data:
-            data['description'] = message.text
-
-        await state.set_state(States.ask_income_amount)
-        await bot.send_message(chat_id=message.chat.id, text='Введите сумму дохода:')
-
-    @dp.message_handler(state=States.ask_income_amount)
-    async def save_income(message: types.Message, state: FSMContext):
-        async with state.proxy() as data:
-            data['amount'] = message.text
-
-        conn = sqlite3.connect('data_base/rashod.db')
-        create_income_table(conn)
-        add_income(conn, data['description'], data['amount'], datetime.now().strftime('%Y-%m-%d'))
-        conn.close()
-
-        await bot.send_message(chat_id=message.chat.id, text='Доход успешно добавлен в базу данных!')
-        await state.finish()
-
-        # Отправляем пользователю клавиатуру с основным меню
-        await bot.send_message(chat_id=message.chat.id, text='Выберите один из пунктов меню:', reply_markup=get_keyboard('start'))
-
-
-
-# _ 
-@dp.callback_query_handler(lambda callback_query: callback_query.data == 'expense_1_day')
-async def expense_1_day(callback_query: types.CallbackQuery, state: FSMContext):
-    await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(chat_id=callback_query.from_user.id, text='Вы нажали на кнопку Расходы за 1 день')
-
-    class States(StatesGroup):
-        ask_expense_description = State()
-        ask_expense_amount = State()
-
-    async with state.proxy() as data:
-        data['type'] = 'expense'
-
-    await state.set_state(States.ask_expense_description)
-    await bot.send_message(chat_id=callback_query.from_user.id, text='Введите описание расхода:')
-
-    @dp.message_handler(state=States.ask_expense_description)
-    async def ask_expense_amount(message: types.Message, state: FSMContext):
-        async with state.proxy() as data:
-            data['description'] = message.text
-
-        await state.set_state(States.ask_expense_amount)
-        await bot.send_message(chat_id=message.chat.id, text='Введите сумму расхода:')
-
-    @dp.message_handler(state=States.ask_expense_amount)
-    async def save_expense(message: types.Message, state: FSMContext):
-        async with state.proxy() as data:
-            data['amount'] = message.text
-
-        conn = sqlite3.connect('data_base/rashod.db')
-        create_expenses_table(conn)
-        add_expense(conn, data['description'], data['amount'], datetime.now().strftime('%Y-%m-%d'))
-        conn.close()
-
-        await bot.send_message(chat_id=message.chat.id, text='Расход успешно добавлен в базу данных!')
-        await state.finish()
-
-        # Отправляем пользователю клавиатуру с основным меню
-        await bot.send_message(chat_id=message.chat.id, text='Выберите один из пунктов меню:', reply_markup=get_keyboard('start'))
-
-        
+  
 
 # _
 
