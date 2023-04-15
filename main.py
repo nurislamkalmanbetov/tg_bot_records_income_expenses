@@ -1,6 +1,7 @@
 from aiogram import Dispatcher
 from aiogram.utils import executor
-from handlers.callback import *
+from handlers.callback_expenses import *
+from handlers.callback_income import *
 from data_base import sqlite_db
 from sqlite3 import Error
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -42,6 +43,21 @@ async def process_expenses_main(callback_query: types.CallbackQuery):
     await incomes_main(callback_query)
 
 
+@dp.callback_query_handler(lambda callback: callback.data == 'add_expenses')
+async def process_add_expensec(callback_query: types.CallbackQuery):
+    await add_expenses_func(callback_query)
+
+
+@dp.callback_query_handler(lambda callback: callback.data == 'check_expenses')
+async def process_check_expenses(callback_query: types.CallbackQuery):
+    await check_expenses_func(callback_query)
+
+# вывод клавиатур check_incomes_func
+@dp.callback_query_handler(lambda callback: callback.data == 'check_income')
+async def process_check_income(callback_query: types.CallbackQuery):
+    await check_income_func(callback_query)
+
+
 @dp.callback_query_handler(lambda callback : callback.data == 'back')
 async def process_back(callback_query : types.CallbackQuery):
     await back(callback_query)
@@ -81,9 +97,9 @@ async def income_callback(callback_query: types.CallbackQuery, state: FSMContext
     await income(callback_query, state)
 
 
-@dp.callback_query_handler(lambda callback : callback.data == '1_day_incomes')
-async def process_1_day_callback(callback_query : types.CallbackQuery):
-    await incomes_1_day(callback_query)
+# @dp.callback_query_handler(lambda callback : callback.data == '1_day_incomes')
+# async def process_1_day_callback(callback_query : types.CallbackQuery):
+#     await incomes_1_day(callback_query)
 
   
 

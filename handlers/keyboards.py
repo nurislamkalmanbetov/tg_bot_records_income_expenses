@@ -8,7 +8,7 @@ def get_keyboard(name: str):
         keyboard.add(InlineKeyboardButton('Доходы', callback_data='incomes_kb'))
         keyboard.add(InlineKeyboardButton('Тех.поддержка', url='https://t.me/NurislamKalmanbetov'))
 
-    elif name == 'expenses_kb':
+    elif name == 'expenses_main':
         keyboard = InlineKeyboardMarkup(resize_keyboard=True)
         keyboard.add(InlineKeyboardButton('Написать расход', callback_data='add_expenses'))
         keyboard.add(InlineKeyboardButton('Посмотреть расходы', callback_data='check_expenses'))

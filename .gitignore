@@ -1,3 +1,5 @@
-config
+*config
 credentials.txt
 venv/
+__pycache__
+.idea
