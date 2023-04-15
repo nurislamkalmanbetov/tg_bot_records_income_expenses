@@ -25,48 +25,6 @@ create_expenses_table()
 async def process_start_commands(message : types.Message):         # reply_markup=kb_inline - указываем нашу клавиатуру
     await bot.send_message(chat_id= message.from_user.id, text='Здравствуйте! Бот пишет расходы и доходы\nВыберите команды', reply_markup = get_keyboard('start'))
 
-    # class Fsm(StatesGroup):
-    #     name = State()
-    #     age = State()
-    #     profession = State()
-
-    # await Fsm.name.set()
-    # await message.answer('Введите имя')
-
-    
-
-    # @dp.message_handler(state=Fsm.name)
-    # async def names(message: types.Message, state: FSMContext):
-    #     async with state.proxy() as data:
-    #         data['name'] = message.text
-
-    #     await message.answer("age")
-
-    #     await Fsm.next()
-
-    # @dp.message_handler(state=Fsm.age)
-    # async def names6(message: types.Message, state: FSMContext):
-    #     async with state.proxy() as data:
-    #         data['age'] = message.text
-
-    #         await message.answer('prof')
-
-    #     await Fsm.next()
-    # @dp.message_handler(state=Fsm.profession)
-    # async def names2(message: types.Message, state: FSMContext):
-    #     async with state.proxy() as data:
-    #         data['profession'] = message.text
-
-
-
-    #     data = await state.get_data()
-    #     print(data)
-
-    #     name = data['name']
-    #     age = data['age']
-    #     prof = data['profession']
-    #     await message.answer(f'Ваше имя {name}\nВозраст {age}\nПроф {prof}')
-    #     await state.finish()
 
 
 @dp.message_handler(commands= 'help')
@@ -88,6 +46,7 @@ async def process_expenses_main(callback_query: types.CallbackQuery):
 async def process_back(callback_query : types.CallbackQuery):
     await back(callback_query)
 
+# Expenses_kb____________________________________________________________________________
 
 @dp.callback_query_handler(lambda callback : callback.data == '1_day')
 async def process_1_day_callback(callback_query : types.CallbackQuery):
@@ -121,9 +80,14 @@ async def all_expenses_callback(callback_query: types.CallbackQuery):
 async def income_callback(callback_query: types.CallbackQuery, state: FSMContext):
     await income(callback_query, state)
 
+
+@dp.callback_query_handler(lambda callback : callback.data == '1_day_incomes')
+async def process_1_day_callback(callback_query : types.CallbackQuery):
+    await incomes_1_day(callback_query)
+
   
 
-# _
+# ____________________________________________________________________________________________________
 
 @dp.callback_query_handler(lambda callback : callback.data == 'back')
 async def process_back(callback_query : types.CallbackQuery):

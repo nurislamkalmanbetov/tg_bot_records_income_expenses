@@ -232,3 +232,38 @@ async def income(callback_query: types.CallbackQuery, state: FSMContext):
         # Отправляем пользователю клавиатуру с основным меню
         await bot.send_message(chat_id=message.chat.id, text='Выберите один из пунктов меню:', reply_markup=get_keyboard('start'))
     
+
+async def incomes_1_day(callback_query: types.CallbackQuery, state: FSMContext):
+    await bot.answer_callback_query(callback_query.id)
+    await bot.send_message(chat_id=callback_query.from_user.id, text='Вы нажали на кнопку Доходы за один день')
+
+    class States(StatesGroup):
+        ask_date = State()
+        show_incomes = State()
+
+    await state.set_state(States.ask_date)
+    await bot.send_message(chat_id=callback_query.from_user.id, text='Введите дату в формате ГГГГ-ММ-ДД:')
+
+    @dp.message_handler(state=States.ask_date)
+    async def show_incomes_by_date(message: types.Message, state: FSMContext):
+        date = message.text
+        conn = sqlite3.connect('data_base/rashod.db')
+        rows = get_incomes_by_date(conn, date)
+        conn.close()
+
+        if not rows:
+            await bot.send_message(chat_id=message.chat.id, text=f'На {date} доходов не было')
+            await state.finish()
+            return
+
+        total_income = 0
+        for row in rows:
+            total_income += row[2]
+            await bot.send_message(chat_id=message.chat.id, text=f'{row[1]} - {row[2]} руб.')
+        await bot.send_message(chat_id=message.chat.id, text=f'Общая сумма доходов на {date}: {total_income} руб.')
+
+        await state.finish()
+
+        # Отправляем пользователю клавиатуру с основным меню
+        await bot.send_message(chat_id=message.chat.id, text='Выберите один из пунктов меню:', reply_markup=get_keyboard('start'))
+

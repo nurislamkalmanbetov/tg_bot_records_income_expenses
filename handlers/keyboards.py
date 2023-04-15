@@ -34,7 +34,7 @@ def get_keyboard(name: str):
         keyboard.add(InlineKeyboardButton('Доход за неделю', callback_data='1_week_incomes'))
         keyboard.add(InlineKeyboardButton('Доход за месяц', callback_data='1_month_incomes'))
         keyboard.add(InlineKeyboardButton('Доход за год', callback_data='1_year_incomes'))
-        keyboard.add(InlineKeyboardButton('Все Доходы', callback_data='all_expenses_incomes'))
+        keyboard.add(InlineKeyboardButton('Все Доходы', callback_data='all_incomes'))
         keyboard.add(InlineKeyboardButton('Назад', callback_data='back'))
 
 
